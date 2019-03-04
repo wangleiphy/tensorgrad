@@ -1,5 +1,5 @@
 import torch
-from adlib import EigenSolver
+from .adlib import EigenSolver
 symeig = EigenSolver.apply
 from args import args
 

@@ -1,8 +1,9 @@
 import torch
-from renormalize import renormalize
 from torch.utils import checkpoint
 
-def ctmrg(T, chi, max_iter, use_checkpoint=False):
+from .renormalize import renormalize
+
+def CTMRG(T, chi, max_iter, use_checkpoint=False):
 
     threshold = 1E-12 if T.dtype is torch.float64 else 1E-6 # ctmrg convergence threshold  
 
