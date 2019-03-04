@@ -13,8 +13,8 @@ def TRG(T, chi, no_iter,  epsilon=1E-15):
         T = T/maxval 
         lnZ += 2**(no_iter-n)*torch.log(maxval)
 
-        Ma = T.permute(2, 1, 0, 3).contiguous().view(D**2, D**2)
-        Mb = T.permute(3, 2, 1, 0).contiguous().view(D**2, D**2)
+        Ma = T.view(D**2, D**2)
+        Mb = T.permute(1, 2, 0, 3).contiguous().view(D**2, D**2)
 
         Ua, Sa, Va = svd(Ma)
         Ub, Sb, Vb = svd(Mb)
@@ -26,7 +26,7 @@ def TRG(T, chi, no_iter,  epsilon=1E-15):
         S2 = (Ub[:, :D_new]* torch.sqrt(Sb[:D_new])).view(D, D, D_new)
         S4 = (Vb[:, :D_new]* torch.sqrt(Sb[:D_new])).view(D, D, D_new)
 
-        T_new = torch.einsum('war,abu,bgl,gwd->ruld', (S1, S2, S3, S4))
+        T_new = torch.einsum('xwu,yxl,yzd,wzr->uldr', (S2, S3, S4, S1))
 
         D = D_new
         T = T_new

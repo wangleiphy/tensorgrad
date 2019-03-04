@@ -1,36 +1,30 @@
 ## Differentiable Programming Tensor Networks
 
-### Appetizer
+### Ising
 
-The code [ising.py](https://github.com/wangleiphy/tensorgrad/tree/master/ising.py) computes the free energy, energy and specific heat of a 2D Ising model using Tensor Renormalization Group + Automatic Differentiation. 
-
-Type this to run 
+Run this to compute the free energy, energy and specific heat of a 2D Ising model using Tensor Renormalization Group + Automatic Differentiation 
 
 
 ```bash
 $ python ising.py 
 ```
 
-### Main dish 
+### Heisenberg
 
-Run this, 
+Run this to optimize an iPEPS wavefuntion for 2D quantum Heisenberg model.
 
 
 ```bash
 $ python main.py -D 3 -chi 30 
 ```
 
-which will optimize an iPEPS for 2D quantum Heisenberg model. It is straightforward to supply your own Hamiltonian. 
-
-### Desert 
-
-[power.py](https://github.com/wangleiphy/tensorgrad/tree/master/rg/adlib/power.py) contains an example of customized backward through dominant eigensolver. 
+It is also possible to supply your own Hamiltonian, and measure other physical observable at your interests. 
 
 ### What is going on ?
 
-The codes in [adlib](https://github.com/wangleiphy/tensorgrad/tree/master/rg/adlab) implements the backward function needed to compute gradients for a tensor network contraction.  
+The codes in [adlib](https://github.com/wangleiphy/tensorgrad/tree/master/rg/adlib) implements the backward function needed to propagate gradients through tensor network contractions.  
 
 ### Requirements
 
 * [PyTorch](https://pytorch.org/)
-* A good GPU card in case you are inpatient 
+* A good GPU card  if you are inpatient 
