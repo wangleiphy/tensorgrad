@@ -20,14 +20,16 @@ def build_tensor(K):
 if __name__=="__main__":
     import argparse
     parser = argparse.ArgumentParser(description='')
+    parser.add_argument("-Dcut", type=int, default=10, help="Dcut")
+    parser.add_argument("-NoRG", type=int, default=20, help="NoRG")
     parser.add_argument("-float32", action='store_true', help="use float32")
     parser.add_argument("-cuda", type=int, default=-1, help="use GPU")
     args = parser.parse_args()
     device = torch.device("cpu" if args.cuda<0 else "cuda:"+str(args.cuda))
     dtype = torch.float32 if args.float32 else torch.float64
 
-    Dcut = 24
-    n = 20
+    Dcut = args.Dcut
+    n = args.NoRG
 
     for K in np.linspace(0.4, 0.5, 11):
         beta = torch.tensor(K, dtype=dtype, device=device).requires_grad_()

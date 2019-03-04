@@ -1,50 +1,53 @@
-import torch
+import torch    
 from .adlib import EigenSolver
 symeig = EigenSolver.apply
-from args import args
 
 def renormalize(*tensors):
-    T, C, E = tensors
+    # T(up,left,down,right), u=up, l=left, d=down, r=right
+    # C(d,r), EL(u,r,d), EU(l,d,r)
 
-    D, d = E.shape[0], E.shape[1]
-    # M = torch.einsum('ab,eca,bdg,cdfh->efgh', (C, E, E, T)).contiguous().view(D*d, D*d)
-    M = torch.tensordot(E,C,dims=1)  # E(eca)*C(ab)=M(ecb)
-    M = torch.tensordot(M,E,dims=1)  # M(ecb)*E(bdg)=M(ecdg)
-    M = torch.tensordot(M,T,dims=([1,2],[1,0]))  # M(ecdg)*T(dcfh)=M(egfh)
-    M = M.permute(0,2,1,3).contiguous().view(D*d, D*d)  # M(egfh)->M(ef;gh)
+    C, E, T, chi = tensors
 
-    M = (M+M.t())/2.
-    M = M/M.norm()
-
-    D_new = min(D*d, args.chi)
-    if (not torch.isfinite(M).all()):
-        print ('M is not finite!!')
+    dimT, dimE = T.shape[0], E.shape[0]
+    D_new = min(dimE*dimT, chi)
     
-    #U, S, V = svd(M)
-    #truncation_error = S[D_new:].sum()/S.sum()
-    #P = U[:, :D_new] # projection operator
+    # step 1: contruct the density matrix Rho
+    Rho = torch.tensordot(C,E,([1],[0]))        # C(ef)*EU(fga)=Rho(ega)
+    Rho = torch.tensordot(Rho,E,([0],[0]))      # Rho(ega)*EL(ehc)=Rho(gahc)
+    Rho = torch.tensordot(Rho,T,([0,2],[0,1]))  # Rho(gahc)*T(ghdb)=Rho(acdb)
+    Rho = Rho.permute(0,3,1,2).contiguous().view(dimE*dimT, dimE*dimT)  # Rho(acdb)->Rho(ab;cd)
 
-    #S, U = torch.symeig(M, eigenvectors=True)
-    S, U = symeig(M)
+    Rho = Rho+Rho.t()
+    Rho = Rho/Rho.norm()
+
+    if (not torch.isfinite(Rho).all()):
+        print ('Rho is not finite!!')
+    
+    # step 2: Get Isometry P
+    """
+    U, S, V = svd(Rho)
+    truncation_error = S[D_new:].sum()/S.sum()
+    P = U[:, :D_new] # projection operator
+    """
+
+    S, U = symeig(Rho)
     sorted, indices = torch.sort(S.abs(), descending=True)
     truncation_error = sorted[D_new:].sum()/sorted.sum() 
     S = S[indices][:D_new]
     P = U[:, indices][:, :D_new] # projection operator
 
-    C = (P.t() @ M @ P) #(D, D)
-    C = (C+C.t())/2.
+    # step 3: renormalize C and E
+    C = (P.t() @ Rho @ P) #C(D_new, D_new)
     
     ## EL(u,r,d)
-    P = P.view(D,d,D_new)
-    E = torch.tensordot(E, P, ([0],[0]))  # E(dhf)P(dea)=E(hfea)
-    E = torch.tensordot(E, T, ([0,2],[1,0]))  # E(hfea)T(ehgb)=E(fagb)
-    E = torch.tensordot(E, P, ([0,2],[0,1]))  # E(fagb)P(fgc)=E(abc)
+    P = P.view(dimE,dimT,D_new)
+    E = torch.tensordot(E, P, ([0],[0]))  # EL(def)P(dga)=E(efga)
+    E = torch.tensordot(E, T, ([0,2],[1,0]))  # E(efga)T(gehb)=E(fahb)
+    E = torch.tensordot(E, P, ([0,2],[0,1]))  # E(fahb)P(fhc)=E(abc)
     
-    #ET = torch.einsum('ldr,adbc->labrc', (E, T)).contiguous().view(D*d, d, D*d)
-    #ET = torch.tensordot(E, T, dims=([1], [1]))
-    #ET = ET.permute(0, 2, 3, 1, 4).contiguous().view(D*d, d, D*d)
-    #E = torch.einsum('li,ldr,rj->idj', (P, ET, P)) #(D_new, d, D_new)
+    # step 4: symmetrize C and E
+    C = 0.5*(C+C.t())
+    E = 0.5*(E + E.permute(2, 1, 0))
 
-    E = (E + E.permute(2, 1, 0))/2.
+    return C/C.norm(), E, S.abs()/S.abs().max(), truncation_error
 
-    return C/C.norm(), E/E.norm(), S/S.max(), truncation_error
