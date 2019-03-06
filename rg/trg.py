@@ -32,9 +32,10 @@ def TRG(T, chi, no_iter,  epsilon=1E-15):
         T = T_new
 
     trace = 0.0
-    for i in range(D):
-        trace += T[i, i, i, i]
+    for x in range(D):
+        for y in range(D):
+            trace += T[x, y, x, y]
     lnZ += torch.log(trace)
 
-    return lnZ 
+    return lnZ/2**no_iter
 
