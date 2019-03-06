@@ -1,6 +1,5 @@
 import numpy as np
-import scipy.linalg 
-import torch, pdb
+import torch
 
 def safe_inverse(x, epsilon=1E-12):
     return x/(x**2 + epsilon)
@@ -9,11 +8,6 @@ class SVD(torch.autograd.Function):
     @staticmethod
     def forward(self, A):
         U, S, V = torch.svd(A)
-        #numpy_input = A.detach().numpy()
-        #U, S, Vt = scipy.linalg.svd(numpy_input, full_matrices=False, lapack_driver='gesvd')
-        #U = torch.as_tensor(U, dtype=A.dtype, device=A.device)
-        #S = torch.as_tensor(S, dtype=A.dtype, device=A.device)
-        #V = torch.as_tensor(np.transpose(Vt), dtype=A.dtype, device=A.device)
         self.save_for_backward(U, S, V)
         return U, S, V
 
@@ -45,9 +39,6 @@ class SVD(torch.autograd.Function):
             dA = dA + (torch.eye(M, dtype=dU.dtype, device=dU.device) - U@Ut) @ (dU/S) @ Vt 
         if (N>NS):
             dA = dA + (U/S) @ dV.t() @ (torch.eye(N, dtype=dU.dtype, device=dU.device) - V@Vt)
-        #print (dU.norm().item(), dS.norm().item(), dV.norm().item())
-        #print (Su.norm().item(), Sv.norm().item(), dS.norm().item())
-        #print (dA1.norm().item(), dA2.norm().item(), dA3.norm().item())
         return dA
 
 def test_svd():
