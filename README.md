@@ -18,9 +18,9 @@ Run this to optimize an iPEPS wavefuntion for 2D quantum Heisenberg model. Here,
 $ python main.py -D 3 -chi 30 
 ```
 
-It is also possible to supply your own Hamiltonian and measure other physical observable of interests. 
+It is also possible to supply your own Hamiltonian and measure other physical observables of interests. 
 
-### What is going on ?
+### What is under the hood ?
 
 Reverse mode AD computes gradient accurately and efficiently for you! Check the codes in [adlib](https://github.com/wangleiphy/tensorgrad/tree/master/rg/adlib) for backward functions which propagate gradients through tensor network contractions.  
 
@@ -28,3 +28,10 @@ Reverse mode AD computes gradient accurately and efficiently for you! Check the 
 
 * [PyTorch 1.0+](https://pytorch.org/)
 * A good GPU card if you are inpatient or ambitious 
+
+### Explore more
+
+See [link]() for a Julia implementation
+
+
+
