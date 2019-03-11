@@ -1,15 +1,15 @@
 '''
-Variational PEPS with automatic differentiation and GPU support 
+Variational PEPS with automatic differentiation and GPU support
 '''
 import io
 import torch
 import numpy as np
 torch.set_num_threads(1)
 torch.manual_seed(1879)
-import subprocess 
+import subprocess
 from utils import kronecker_product as kron
 from utils import save_checkpoint, load_checkpoint
-from ipeps import iPEPS 
+from ipeps import iPEPS
 from args import args
 
 if __name__=='__main__':
@@ -22,7 +22,7 @@ if __name__=='__main__':
 
     if args.load is not None:
         try:
-            load_checkpoint(args.load, args, model) #TODO: make it possible to load from smaller D  
+            load_checkpoint(args.load, args, model)
             print('load model', args.load)
         except FileNotFoundError:
             print('not found:', args.load)
@@ -36,7 +36,7 @@ if __name__=='__main__':
     key = args.folder
     key += args.model \
           + '_D' + str(args.D) \
-          + '_chi' + str(args.chi) 
+          + '_chi' + str(args.chi)
     if (args.float32):
         key += '_float32'
     cmd = ['mkdir', '-p', key]
@@ -53,7 +53,7 @@ if __name__=='__main__':
         Mpx = (kron(id2,sx) + kron(sx,id2))/2
         Mpy = (kron(id2,sy) + kron(sy,id2))/2
         Mpz = (kron(id2,sz) + kron(sz,id2))/2
-            
+
     elif args.model == 'Heisenberg':
         #Hamiltonian operators on a bond
         sx = torch.tensor([[0, 1], [1, 0]], dtype=dtype, device=device)*0.5
@@ -62,13 +62,13 @@ if __name__=='__main__':
         sm = torch.tensor([[0, 0], [1, 0]], dtype=dtype, device=device)
         sz = torch.tensor([[1, 0], [0, -1]], dtype=dtype, device=device)*0.5
         id2 = torch.tensor([[1, 0], [0, 1]], dtype=dtype, device=device)
-        
+
         # now assuming Jz>0, Jxy > 0
         H = 2*args.Jz*kron(sz,4*sx@sz@sx)-args.Jxy*(kron(sm, 4*sx@sp@sx)+kron(sp,4*sx@sm@sx))
         Mpx = kron(sx, id2)
         Mpy = kron(sy, id2)
         Mpz = kron(sz, id2)
-        print (H) 
+        print (H)
     else:
         print ('what model???')
         sys.exit(1)
@@ -92,5 +92,5 @@ if __name__=='__main__':
                 En, Mx, My, Mz = model.forward(H, Mpx, Mpy, Mpz, args.chi if args.chi_obs is None else args.chi_obs)
                 Mg = torch.sqrt(Mx**2+My**2+Mz**2)
                 message = ('{} ' + 5*'{:.16f} ').format(epoch, En, Mx, My, Mz, Mg)
-                print ('epoch, En, Mx, My, Mz, Mg', message) 
+                print ('epoch, En, Mx, My, Mz, Mg', message)
                 logfile.write(message + u'\n')

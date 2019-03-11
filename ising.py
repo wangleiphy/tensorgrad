@@ -24,7 +24,7 @@ if __name__=="__main__":
     parser.add_argument("-Niter", type=int, default=20, help="Niter")
     parser.add_argument("-use_checkpoint", action='store_true', help="use checkpoint")
     parser.add_argument("-float32", action='store_true', help="use float32")
-    parser.add_argument("-cuda", type=int, default=-1, help="use GPU")
+    parser.add_argument("-cuda", type=int, default=-1, help="GPU #")
     args = parser.parse_args()
     device = torch.device("cpu" if args.cuda<0 else "cuda:"+str(args.cuda))
     dtype = torch.float32 if args.float32 else torch.float64

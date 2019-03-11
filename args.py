@@ -12,11 +12,11 @@ parser.add_argument("-Jz", type=float, default=1.0, help="Jz")
 parser.add_argument("-Jxy", type=float, default=1.0, help="Jxy")
 parser.add_argument("-hx", type=float, default=1.0, help="hx")
 parser.add_argument("-model", default='Heisenberg', choices=['TFIM', 'Heisenberg'], help="model name")
-parser.add_argument("-load", default=None, help="load")
+parser.add_argument("-load", default=None, help="load wavefunction file")
 parser.add_argument("-save_period", type=int, default=1, help="")
 parser.add_argument("-float32", action='store_true', help="use float32")
 parser.add_argument("-use_checkpoint", action='store_true', help="use checkpoint")
-parser.add_argument("-cuda", type=int, default=-1, help="use GPU")
+parser.add_argument("-cuda", type=int, default=-1, help="GPU #")
 
 args = parser.parse_args()
- 
+
