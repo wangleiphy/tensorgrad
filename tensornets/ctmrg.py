@@ -83,7 +83,7 @@ def CTMRG(T, chi, max_iter, use_checkpoint=False):
         if (diff < threshold):
             break
         sold = s
-    print ('ctmrg iterations, diff, error', n, diff, truncation_error/n)
+    #print ('ctmrg converged at iterations %d to %.5e, truncation error: %.5f'%(n, diff, truncation_error/n))
 
     return C, E
 

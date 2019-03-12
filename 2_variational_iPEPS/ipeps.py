@@ -1,6 +1,9 @@
+import sys
+sys.path.insert(0, '../')
+
 import torch 
 import time
-from rg import CTMRG
+from tensornets import CTMRG
 from measure import get_obs
 from utils import symmetrize
 from args import args

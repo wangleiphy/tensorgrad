@@ -1,6 +1,7 @@
 '''
 Variational PEPS with automatic differentiation and GPU support
 '''
+
 import io
 import torch
 import numpy as np
@@ -68,10 +69,11 @@ if __name__=='__main__':
         Mpx = kron(sx, id2)
         Mpy = kron(sy, id2)
         Mpz = kron(sz, id2)
-        print (H)
     else:
         print ('what model???')
         sys.exit(1)
+
+    print ('Hamiltonian:\n', H)
 
     def closure():
         optimizer.zero_grad()
@@ -79,7 +81,7 @@ if __name__=='__main__':
         loss, Mx, My, Mz = model.forward(H, Mpx, Mpy, Mpz, args.chi)
         forward = time.time()
         loss.backward()
-        print (model.A.norm().item(), model.A.grad.norm().item(), loss.item(), Mx.item(), My.item(), Mz.item(), torch.sqrt(Mx**2+My**2+Mz**2).item(), forward-start, time.time()-forward)
+        #print (model.A.norm().item(), model.A.grad.norm().item(), loss.item(), Mx.item(), My.item(), Mz.item(), torch.sqrt(Mx**2+My**2+Mz**2).item(), forward-start, time.time()-forward)
         return loss
 
     with io.open(key+'.log', 'a', buffering=1, newline='\n') as logfile:
@@ -91,6 +93,6 @@ if __name__=='__main__':
             with torch.no_grad():
                 En, Mx, My, Mz = model.forward(H, Mpx, Mpy, Mpz, args.chi if args.chi_obs is None else args.chi_obs)
                 Mg = torch.sqrt(Mx**2+My**2+Mz**2)
-                message = ('{} ' + 5*'{:.16f} ').format(epoch, En, Mx, My, Mz, Mg)
+                message = ('{} ' + 5*'{:.5f} ').format(epoch, En, Mx, My, Mz, Mg)
                 print ('epoch, En, Mx, My, Mz, Mg', message)
                 logfile.write(message + u'\n')

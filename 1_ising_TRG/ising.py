@@ -1,7 +1,9 @@
+import sys
+sys.path.insert(0, '../')
 import torch
 import numpy as np
 
-from rg import TRG
+from tensornets import TRG
 
 def build_tensor(K):
     lam = [torch.cosh(K)*2, torch.sinh(K)*2]
@@ -20,7 +22,7 @@ def build_tensor(K):
 if __name__=="__main__":
     import argparse
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument("-chi", type=int, default=24, help="chi")
+    parser.add_argument("-chi", type=int, default=16, help="chi")
     parser.add_argument("-Niter", type=int, default=20, help="Niter")
     parser.add_argument("-use_checkpoint", action='store_true', help="use checkpoint")
     parser.add_argument("-float32", action='store_true', help="use float32")
