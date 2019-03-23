@@ -1,5 +1,6 @@
 ## Differentiable Programming Tensor Networks
 
+ [arXiv:1903.XXXX](https://arxiv.org/abs/1903.XXXX), by Hai-Jun Liao, Jin-Guo Liu, Lei Wang, and Tao Xiang
 
 ### Requirements
 
@@ -28,7 +29,7 @@ $ cd 2_variational_iPEPS
 $ python variational.py -D 3 -chi 30 
 ```
 
-In case of a question, you can type `python variational.py -h`. To make use GPU, you can add `-cuda <GPUID>`.  It is also possible to supply Hamiltonian of your own interests. 
+In case of a question, you can type `python variational.py -h`. To make use of the GPU, you can add `-cuda <GPUID>`.  It is also possible to supply Hamiltonian of your own interests. 
 
 ### What is under the hood ?
 

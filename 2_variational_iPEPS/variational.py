@@ -93,6 +93,6 @@ if __name__=='__main__':
             with torch.no_grad():
                 En, Mx, My, Mz = model.forward(H, Mpx, Mpy, Mpz, args.chi if args.chi_obs is None else args.chi_obs)
                 Mg = torch.sqrt(Mx**2+My**2+Mz**2)
-                message = ('{} ' + 5*'{:.5f} ').format(epoch, En, Mx, My, Mz, Mg)
+                message = ('{} ' + 5*'{:.8f} ').format(epoch, En, Mx, My, Mz, Mg)
                 print ('epoch, En, Mx, My, Mz, Mg', message)
                 logfile.write(message + u'\n')

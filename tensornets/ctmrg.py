@@ -1,8 +1,10 @@
 import torch
 from torch.utils.checkpoint import checkpoint
 
-from .adlib import EigenSolver
-symeig = EigenSolver.apply
+from .adlib import SVD 
+svd = SVD.apply
+#from .adlib import EigenSolver
+#symeig = EigenSolver.apply
 
 def renormalize(*tensors):
     # T(up,left,down,right), u=up, l=left, d=down, r=right
@@ -22,21 +24,17 @@ def renormalize(*tensors):
     Rho = Rho+Rho.t()
     Rho = Rho/Rho.norm()
 
-    if (not torch.isfinite(Rho).all()):
-        print ('Rho is not finite!!')
-
     # step 2: Get Isometry P
-    """
     U, S, V = svd(Rho)
     truncation_error = S[D_new:].sum()/S.sum()
     P = U[:, :D_new] # projection operator
-    """
-
-    S, U = symeig(Rho)
-    sorted, indices = torch.sort(S.abs(), descending=True)
-    truncation_error = sorted[D_new:].sum()/sorted.sum()
-    S = S[indices][:D_new]
-    P = U[:, indices][:, :D_new] # projection operator
+    
+    #can also do symeig since Rho is symmetric 
+    #S, U = symeig(Rho)
+    #sorted, indices = torch.sort(S.abs(), descending=True)
+    #truncation_error = sorted[D_new:].sum()/sorted.sum()
+    #S = S[indices][:D_new]
+    #P = U[:, indices][:, :D_new] # projection operator
 
     # step 3: renormalize C and E
     C = (P.t() @ Rho @ P) #C(D_new, D_new)

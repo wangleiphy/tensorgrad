@@ -1,3 +1,8 @@
+'''
+PyTorch has its own implementation of backward function for SVD https://github.com/pytorch/pytorch/blob/291746f11047361100102577ce7d1cfa1833be50/tools/autograd/templates/Functions.cpp#L1577 
+We reimplement it with a safe inverse function in light of degenerated singular values
+'''
+
 import numpy as np
 import torch
 
