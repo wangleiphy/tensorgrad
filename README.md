@@ -31,12 +31,11 @@ $ cd 2_variational_iPEPS
 $ python variational.py -D 3 -chi 30 
 ```
 
-In case of a question, you can type `python variational.py -h`. To make use of the GPU, you can add `-cuda <GPUID>`.  With a single GPU card you will reach the state-of-the-art variational energy and staggered magnetization using this code. 
+In case of a question, you can type `python variational.py -h`. To make use of the GPU, you can add `-cuda <GPUID>`.  With a single GPU card you will reach the state-of-the-art variational energy and staggered magnetization using this code. You can also supply your own Hamiltonian of interest. 
 
 <p align="center">
-<img align="middle" src="_assets/heisenberg.png" width="500" alt="heisenberg"/>
+<img align="middle" src="_assets/heisenberg.png" width="600" alt="heisenberg"/>
 </p>
-You can also supply your own Hamiltonian of interest. 
 
 
 ### What is under the hood ?
