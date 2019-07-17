@@ -1,6 +1,7 @@
-## Differentiable Programming Tensor Networks
-
- [arXiv:1903.09650](https://arxiv.org/abs/1903.09650), by Hai-Jun Liao, Jin-Guo Liu, Lei Wang, and Tao Xiang
+<div align="center">
+<img align="middle" src="_assets/logo.png" width="500" alt="logo"/>
+<h2> Differentiable Programming Tensor Networks </h2>
+</div>
 
 ### Requirements
 
@@ -39,7 +40,18 @@ In case of a question, you can type `python variational.py -h`. To make use of t
 
 ### What is under the hood ?
 
-Reverse mode AD computes gradient accurately and efficiently for you! Check the codes in [adlib](https://github.com/wangleiphy/tensorgrad/tree/master/tensornets/adlib) for backward functions which propagate gradients through tensor network contractions.  
+Reverse mode AD computes gradient accurately and efficiently for you! Check the codes in [adlib](https://github.com/wangleiphy/tensorgrad/tree/master/tensornets/adlib) for backward functions which propagate gradients through tensor network contractions. 
 
+### To Cite
+```bibtex
+@article{Liao2019,
+    title={Differentiable Programming Tensor Networks},
+    author={Liao, Hai-Jun and Liu, Jin-Guo and Wang, Lei and Xiang, Tao},
+    eprint={arXiv:1903.09650},
+    url={https://arxiv.org/abs/1903.09650}
+}
+```
 
+### Explore more
+https://github.com/under-Peter/TensorNetworkAD.jl
 
