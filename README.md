@@ -16,8 +16,6 @@ Run this to compute the energy and specific heat of the 2D classical Ising model
 $ cd 1_ising_TRG
 $ python ising.py 
 ```
-You can supply the command line argument `-use_checkpoint` to reduce the memory usage. 
-
 <p align="center">
 <img align="middle" src="_assets/trg.png" width="500" alt="trg"/>
 </p>
@@ -32,7 +30,7 @@ $ cd 2_variational_iPEPS
 $ python variational.py -D 3 -chi 30 
 ```
 
-In case of a question, you can type `python variational.py -h`. To make use of the GPU, you can add `-cuda <GPUID>`.  You will reach the state-of-the-art variational energy and staggered magnetization using this code. You can also supply your own Hamiltonian of interest. 
+You can supply the command line argument `-use_checkpoint` to reduce the memory usage. To make use of the GPU, you can add `-cuda <GPUID>`.  You will reach the state-of-the-art variational energy and staggered magnetization using this code. You can also supply your own Hamiltonian of interest. In case of a question, you can type `python variational.py -h`.
 
 <p align="center">
 <img align="middle" src="_assets/heisenberg.png" width="500" alt="heisenberg"/>
