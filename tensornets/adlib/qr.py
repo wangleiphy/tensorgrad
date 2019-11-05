@@ -34,7 +34,7 @@ def _simple_qr_backward(q, r, dq, dr):
 
     def _TriangularSolve(x, r):
         """Equiv to x @ torch.inverse(r).t() if r is upper-tri."""
-        res = torch.trtrs(x.t(), r, upper=True, transpose=False)[0].t()
+        res = torch.triangular_solve(x.t(), r, upper=True, transpose=False)[0].t()
         return res
 
     grad_a = q @ (dr + _TriangularSolve(tril, r))
@@ -44,7 +44,7 @@ def _simple_qr_backward(q, r, dq, dr):
 def test_qr():
     M, N = 4, 6
     torch.manual_seed(2)
-    A = torch.randn(M, N)
+    A = torch.randn(M, N, dtype=torch.float64)
     A.requires_grad=True
     assert(torch.autograd.gradcheck(QR.apply, A, eps=1e-4, atol=1e-2))
     print("Test Pass!")

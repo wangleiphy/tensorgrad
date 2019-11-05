@@ -36,7 +36,7 @@ def test_eigs():
     torch.manual_seed(42)
     A = torch.rand(M, M, dtype=torch.float64)
     A = torch.nn.Parameter(A+A.t())
-    assert(torch.autograd.gradcheck(DominantEigensolver.apply, A, eps=1e-6, atol=1e-4))
+    assert(torch.autograd.gradcheck(EigenSolver.apply, A, eps=1e-6, atol=1e-4))
     print("Test Pass!")
 
 if __name__=='__main__':
