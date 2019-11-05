@@ -1,5 +1,4 @@
 import torch
-from torch.utils.checkpoint import checkpoint
 
 from .adlib import SVD
 svd = SVD.apply
@@ -23,19 +22,14 @@ def renormalize(*args):
 
     return torch.einsum('xwu,yxl,yzd,wzr->uldr', (S2, S3, S4, S1))
 
-def TRG(T, chi, no_iter, use_checkpoint=False,  epsilon=1E-15):
+def TRG(T, chi, no_iter, epsilon=1E-15):
 
     lnZ = 0.0
     for n in range(no_iter):
         maxval = T.abs().max()
         T = T/maxval
         lnZ += 2**(no_iter-n)*torch.log(maxval)
-
-        args = T, torch.tensor(chi), torch.tensor(epsilon, dtype=T.dtype, device=T.device)
-        if use_checkpoint: # use checkpoint to save memory
-            T = checkpoint(renormalize, *args)
-        else:
-            T = renormalize(*args)
+        T = renormalize(T, chi, epsilon)
 
     trace = 0.0
     for x in range(T.shape[0]):
