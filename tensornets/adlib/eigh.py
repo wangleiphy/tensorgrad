@@ -22,8 +22,10 @@ class EigenSolver(torch.autograd.Function):
         N = v.shape[0]
 
         F = w - w[:,None]
-        # in case of degenerated eigenvalues, replace the following two lines with a safe inverse
-        F.diagonal().fill_(np.inf);
+        F.diagonal().fill_(np.inf)
+        # safe inverse
+        msk = (torch.abs(F) < 1e-20)
+        F[msk] += 1e-20
         F = 1./F  
 
         vt = v.t()
@@ -31,13 +33,3 @@ class EigenSolver(torch.autograd.Function):
 
         return v@(torch.diag(dw) + F*(vdv-vdv.t())/2) @vt
 
-def test_eigs():
-    M = 2
-    torch.manual_seed(42)
-    A = torch.rand(M, M, dtype=torch.float64)
-    A = torch.nn.Parameter(A+A.t())
-    assert(torch.autograd.gradcheck(EigenSolver.apply, A, eps=1e-6, atol=1e-4))
-    print("Test Pass!")
-
-if __name__=='__main__':
-    test_eigs()
