@@ -3,7 +3,7 @@
 <h2> Differentiable Programming Tensor Networks </h2>
 </div>
 
-[![Build Status](https://travis-ci.com/tangwei94/tensorgrad.svg?branch=master)](https://travis-ci.com/tangwei94/tensorgrad)
+[![Build Status](https://travis-ci.org/tangwei94/tensorgrad.svg?branch=master)](https://travis-ci.com/tangwei94/tensorgrad)
 
 ### Requirements
 
