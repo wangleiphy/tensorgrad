@@ -44,11 +44,19 @@ Reverse mode AD computes gradient accurately and efficiently for you! Check the 
 
 ### To Cite
 ```bibtex
-@article{Liao2019,
-    title={Differentiable Programming Tensor Networks},
-    author={Liao, Hai-Jun and Liu, Jin-Guo and Wang, Lei and Xiang, Tao},
-    eprint={arXiv:1903.09650},
-    url={https://arxiv.org/abs/1903.09650}
+@article{PhysRevX.9.031041,
+  title = {Differentiable Programming Tensor Networks},
+  author = {Liao, Hai-Jun and Liu, Jin-Guo and Wang, Lei and Xiang, Tao},
+  journal = {Phys. Rev. X},
+  volume = {9},
+  issue = {3},
+  pages = {031041},
+  numpages = {12},
+  year = {2019},
+  month = {Sep},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevX.9.031041},
+  url = {https://link.aps.org/doi/10.1103/PhysRevX.9.031041}
 }
 ```
 
