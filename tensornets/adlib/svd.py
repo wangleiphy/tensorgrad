@@ -46,12 +46,3 @@ class SVD(torch.autograd.Function):
             dA = dA + (U/S) @ dV.t() @ (torch.eye(N, dtype=dU.dtype, device=dU.device) - V@Vt)
         return dA
 
-def test_svd():
-    M, N = 50, 40
-    torch.manual_seed(2)
-    input = torch.rand(M, N, dtype=torch.float64, requires_grad=True)
-    assert(torch.autograd.gradcheck(SVD.apply, input, eps=1e-6, atol=1e-4))
-    print("Test Pass!")
-
-if __name__=='__main__':
-    test_svd()

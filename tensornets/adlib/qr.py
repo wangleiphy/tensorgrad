@@ -41,13 +41,3 @@ def _simple_qr_backward(q, r, dq, dr):
     grad_b = _TriangularSolve(dq - q @ qdq, r)
     return grad_a + grad_b
 
-def test_qr():
-    M, N = 4, 6
-    torch.manual_seed(2)
-    A = torch.randn(M, N, dtype=torch.float64)
-    A.requires_grad=True
-    assert(torch.autograd.gradcheck(QR.apply, A, eps=1e-4, atol=1e-2))
-    print("Test Pass!")
-
-if __name__ == "__main__":
-    test_qr()
