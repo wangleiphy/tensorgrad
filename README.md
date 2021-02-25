@@ -24,7 +24,7 @@ $ python ising.py
 
 ### Variational optimization of iPEPS
 
-Run this to optimize an iPEPS wavefuntion for 2D quantum Heisenberg model. Here, we use Corner Transfer Matrix Renormalization Group for contraction, and L-BFGS for optimization. 
+Run this to optimize an iPEPS wave function for 2D quantum Heisenberg model. Here, we use Corner Transfer Matrix Renormalization Group for contraction, and L-BFGS for optimization. 
 
 
 ```bash
