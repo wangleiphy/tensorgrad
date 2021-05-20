@@ -8,7 +8,7 @@
 ### Requirements
 
 * [PyTorch 1.0+](https://pytorch.org/)
-* A good GPU card if you are inpatient or ambitious 
+* A good GPU card if you are impatient or ambitious 
 
 ### Higher order gradient of free energy
 
